@@ -1,0 +1,9 @@
+﻿  main.cpp
+C:\Users\artem\source\repos\adc_reader\main.cpp(67,1): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
+C:\Users\artem\source\repos\adc_reader\main.cpp(228,8): warning C4101: FileBytesWritten: неиспользованная локальная переменная
+  Создание кода
+  121 of 187 functions (64.7%) were compiled, the rest were copied from previous compilation.
+    42 functions were new in current compilation
+    10 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  adc_reader.vcxproj -> C:\Users\artem\source\repos\adc_reader\Release\adc_reader.exe

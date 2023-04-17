@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Plot_of_Seed/Seeds/Selection_images_0" />
+      <excludeFolder url="file://$MODULE_DIR$/Plot_of_Seed/Seeds/Selection_images_10" />
+      <excludeFolder url="file://$MODULE_DIR$/Plot_of_Seed/Seeds/Selection_images_2" />
+      <excludeFolder url="file://$MODULE_DIR$/Plot_of_Seed/Seeds/Selection_images_4" />
+      <excludeFolder url="file://$MODULE_DIR$/Plot_of_Seed/Seeds/Selection_images_6" />
+      <excludeFolder url="file://$MODULE_DIR$/Plot_of_Seed/Seeds/Selection_images_8" />
+      <excludeFolder url="file://$MODULE_DIR$/Plot_of_Seed/Seeds/Selection_proc_0" />
+      <excludeFolder url="file://$MODULE_DIR$/Plot_of_Seed/Seeds/Selection_proc_10" />
+      <excludeFolder url="file://$MODULE_DIR$/Plot_of_Seed/Seeds/Selection_proc_2" />
+      <excludeFolder url="file://$MODULE_DIR$/Plot_of_Seed/Seeds/Selection_proc_4" />
+      <excludeFolder url="file://$MODULE_DIR$/Plot_of_Seed/Seeds/Selection_proc_6" />
+      <excludeFolder url="file://$MODULE_DIR$/Plot_of_Seed/Seeds/Selection_proc_8" />
+      <excludeFolder url="file://$MODULE_DIR$/working_logs" />
+      <excludeFolder url="file://$MODULE_DIR$/results" />
+      <excludeFolder url="file://$MODULE_DIR$/logs" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.10" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

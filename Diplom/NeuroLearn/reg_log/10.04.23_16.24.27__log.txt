@@ -1,0 +1,31 @@
+
+Default
+10:04:23 16:24:27 : logStatus: Loading training sample...
+Default
+10:04:23 16:24:29 : logStatus: 2759 of 2779 files from Selection_proc_0 loaded.
+Default
+10:04:23 16:24:40 : logStatus: 11638 of 11658 files from Selection_proc_10 loaded.
+Default
+10:04:23 16:24:49 : logStatus: 10259 of 10279 files from Selection_proc_2 loaded.
+Default
+10:04:23 16:24:58 : logStatus: 10545 of 10565 files from Selection_proc_4 loaded.
+Default
+10:04:23 16:25:07 : logStatus: 10852 of 10872 files from Selection_proc_6 loaded.
+Default
+10:04:23 16:25:16 : logStatus: 11070 of 11090 files from Selection_proc_8 loaded.
+Default
+10:04:23 16:25:16 : logStatus: Done. Total files: 57123
+Default
+10:04:23 16:25:17 : logStatus: Creating neural network
+Default
+10:04:23 16:25:17 : logStatus: Done
+Default
+10:04:23 16:25:17 : logStatus: Training neural network
+Default
+10:04:23 16:41:04 : logStatus: Done
+Default
+10:04:23 16:41:04 : logStatus: Weights saving
+Default
+10:04:23 16:41:04 : logStatus: Done
+Default
+10:04:23 16:41:04 : logResult: Mean Squared Error: 0.4346918907128981
