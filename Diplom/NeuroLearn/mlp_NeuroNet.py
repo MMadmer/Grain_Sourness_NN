@@ -80,7 +80,7 @@ def main():
 
     # create an MLP
     log.log(log_categories[1], 1, "Creating neural network")
-    mlp = MLPClassifier(hidden_layer_sizes=(250, 125,), max_iter=30, verbose=10, batch_size=16)
+    mlp = MLPClassifier(hidden_layer_sizes=(250, 125, 62), max_iter=30, verbose=10, batch_size=16)
     log.log(log_categories[1], 1, "Done")
 
     # train the MLP on the training data

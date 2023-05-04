@@ -17,7 +17,7 @@ def get_weights(mod):
     return model
 
 
-def main(mode=1, noise_filter=True):
+def main(mode=1, noise_filter=True, sec=-1):
     if mode == 1:
         log = Log.Logging(True, "working_logs/reg")
     elif mode == 2:
@@ -45,11 +45,14 @@ def main(mode=1, noise_filter=True):
     log.log(log_categories[1], 1, "Done")
 
     log.log(log_categories[1], 1, "Loading data")
-    data = np.array(utils.get_fft_data(noise_filter)).reshape(1, -1)
+    data = np.array(utils.get_fft_data(noise_filter, sec)).reshape(1, -1)
     # data = np.array(test.main()).reshape(1, -1)
     log.log(log_categories[1], 1, "Done")
     if None in data:
         log.log(log_categories[0], 1, "Noise")
+        with open("result.txt", "a+") as file:
+            file.seek(0, 2)
+            file.write("-1" + '\n')
     elif len(data[0]) < 1000:
         log.log(log_categories[0], 1, f"Little data: {len(data)} of 1000")
     else:
@@ -60,9 +63,17 @@ def main(mode=1, noise_filter=True):
 
         if mode == 1:
             log.log(log_categories[0], 1, str(round(float(y_pred), 2)) + '%')
+
+            with open(f"result.txt", "a+") as file:
+                file.seek(0, 2)
+                file.write(str(round(float(y_pred), 2)) + '\n')
         if mode == 2:
-            classes = ["0%", "2%", "4%", "6%", "8%", "10%"]
-            log.log(log_categories[1], 1, classes[int(y_pred) - 1])
+            classes = [0, 2, 4, 6, 8, 10]
+            log.log(log_categories[1], 1, str(classes[int(y_pred) - 1]) + '%')
+
+            with open(f"result.txt", "a+") as file:
+                file.seek(0, 2)
+                file.write(str(classes[int(y_pred) - 1]) + '\n')
 
 
 if __name__ == "__main__":

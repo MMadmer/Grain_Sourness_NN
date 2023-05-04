@@ -233,7 +233,7 @@ def main():
                 # Fourier
                 coeffs = dft(selection_V)
                 freq = 5000
-                N = int(len(coeffs) / 5)
+                N = 1000
                 freq_step = [k * freq / N for k in range(N)]
                 mags = [abs(coeffs[x]) for x in range(N)]
 

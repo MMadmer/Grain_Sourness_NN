@@ -1,30 +1,20 @@
-import sys
+import tkinter
+import customtkinter
+import os
 import time
-
-from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QCheckBox)
 from functools import partial
+
 import utils
 import Grain_Sourness_NN as NN
 import threading
 
 
-class MyApp(QWidget):
+class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
 
         # Vars block
-        self.PATH_BLOCK_Y = 0.05
-        self.PATH_BLOCK_BASE_DISTANCE = 10
-        self.pathBlockSize = None
-        self.LE_PATH_BASE_WIDTH = 300
-        self.BTN_CHOOSE_IMAGE_BASE_WIDTH = 100
-        self.PATH_BLOCK_WIDTH = self.LE_PATH_BASE_WIDTH + \
-                                self.BTN_CHOOSE_IMAGE_BASE_WIDTH + \
-                                self.PATH_BLOCK_BASE_DISTANCE
         self.can_calculating = False
-
-        # Window vars
-        self.minWindowSize = [self.PATH_BLOCK_WIDTH + 20, 160]
 
         # Buttons
         self.btnMLP = None
@@ -33,6 +23,9 @@ class MyApp(QWidget):
         self.btnADC = None
         self.btnSignal = None
         self.btnFourier = None
+        self.btnResults = None
+        self.btnCompileSignal = None
+        self.leDownBorder = None
 
         # Checkbox
         self.checkFilter = None
@@ -40,53 +33,59 @@ class MyApp(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Grain sourness")
-        self.setGeometry(int(self.screen().size().width() / 2 - self.minWindowSize[0] / 2),
-                         int((self.screen().size().height() / 2 - self.minWindowSize[1] / 2) * 0.8),
-                         self.minWindowSize[0],
-                         self.minWindowSize[1])
-        self.setFixedSize(self.minWindowSize[0], self.minWindowSize[1])
+        # Theme
+        customtkinter.set_appearance_mode("Dark")
+
+        # Main window
+        self.geometry("600x500")
+        self.title("Grain sourness")
 
         # -----------------
         # Buttons block
         # -----------------
 
-        self.btnADC = QPushButton("Start ADC", self)
-        self.btnADC.clicked.connect(partial(utils.launch_ADC))
-        self.btnADC.move(175, 100)
+        # Local NN
+        self.leDownBorder = customtkinter.CTkEntry(self, placeholder_text="-1")
+        self.leDownBorder.place(relx=0.5, rely=0.1, anchor=tkinter.CENTER)
 
-        self.btnReg = QPushButton("Start regressive", self)
-        self.btnReg.clicked.connect(partial(self.start_nn, 1))
-        self.btnReg.move(120, 25)
+        self.btnReg = customtkinter.CTkButton(self, text="Start regressive", command=partial(self.start_nn, 1))
+        self.btnReg.place(relx=0.35, rely=0.2, anchor=tkinter.CENTER)
 
-        self.btnMLP = QPushButton("Start classifier", self)
-        self.btnMLP.clicked.connect(partial(self.start_nn, 2))
-        self.btnMLP.move(self.btnReg.x() + self.btnReg.width(), self.btnReg.y())
+        self.btnMLP = customtkinter.CTkButton(self, text="Start classifier", command=partial(self.start_nn, 2))
+        self.btnMLP.place(relx=0.65, rely=0.2, anchor=tkinter.CENTER)
 
-        self.btnStopNeuralNet = QPushButton("Stop neural network", self)
-        self.btnStopNeuralNet.clicked.connect(partial(self.stop_nn))
-        self.btnStopNeuralNet.move(self.btnReg.x() + 35,
-                                   self.btnReg.y() + 30)
+        self.btnStopNeuralNet = customtkinter.CTkButton(self, text="Stop neural network", command=self.stop_nn)
+        self.btnStopNeuralNet.place(relx=0.5, rely=0.35, anchor=tkinter.CENTER)
 
         # Checkbox
-        self.checkFilter = QCheckBox("Noise filter", self)
-        self.checkFilter.move(20, 50)
+        self.checkFilter = customtkinter.CTkCheckBox(self, text="Noise filter", onvalue=True, offvalue=False)
+        self.checkFilter.select()
+        self.checkFilter.place(relx=0.3, rely=0.35, anchor=tkinter.CENTER)
+
+        # Full signal
+        self.btnSignal = customtkinter.CTkButton(self, text="Show full signal", command=utils.show_signal)
+        self.btnSignal.place(relx=0.2, rely=0.7, anchor=tkinter.CENTER)
+
+        # Compile signal
+        self.btnCompileSignal = customtkinter.CTkButton(self, text="Compile signal", command=utils.compile_signal)
+        self.btnCompileSignal.place(relx=0.5, rely=0.7, anchor=tkinter.CENTER)
 
         # Fourier
-        self.btnFourier = QPushButton("Show last fourier", self)
-        self.btnFourier.clicked.connect(partial(utils.show_fourier))
-        self.btnFourier.move(self.btnADC.x() + self.btnADC.width() + 5, self.btnADC.y())
+        self.btnFourier = customtkinter.CTkButton(self, text="Show last fourier", command=utils.show_fourier)
+        self.btnFourier.place(relx=0.8, rely=0.7, anchor=tkinter.CENTER)
 
-        # Local Fourier
-        self.btnSignal = QPushButton("Show full signal", self)
-        self.btnSignal.clicked.connect(partial(utils.show_signal))
-        self.btnSignal.move(self.btnADC.x() - self.btnSignal.width() - 5, self.btnADC.y())
+        # Results
+        self.btnResults = customtkinter.CTkButton(self, text="Show results", command=utils.show_results)
+        self.btnResults.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
     def start_nn(self, mode):
         # print(threading.active_count())
         # print(self.can_calculating)
         if self.can_calculating:
             return
+
+        if os.path.exists("result.txt"):
+            os.remove("result.txt")
 
         self.can_calculating = True
         thread = threading.Thread(target=self.neural_network, args=(mode,))
@@ -99,14 +98,13 @@ class MyApp(QWidget):
 
     def neural_network(self, mode):
         while self.can_calculating:
-            thread = threading.Thread(target=NN.main, args=(mode, self.checkFilter.isChecked(),))
+            thread = threading.Thread(target=NN.main,
+                                      args=(mode, self.checkFilter.get(), self.leDownBorder.get(),))
             thread.start()
             thread.join()
             time.sleep(1)
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = MyApp()
-    window.show()
-    sys.exit(app.exec_())
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()

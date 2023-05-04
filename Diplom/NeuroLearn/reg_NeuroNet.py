@@ -88,7 +88,7 @@ def main():
 
     log.log(log_categories[1], 1, "Creating neural network")
     reg = MLPRegressor(hidden_layer_sizes=(250, 125, 62,), activation='relu', solver='adam',
-                       verbose=10, max_iter=30, random_state=42, batch_size=16)
+                       verbose=10, max_iter=45, random_state=42, batch_size=16)
     log.log(log_categories[1], 1, "Done")
 
     # train the MLP on the training data
