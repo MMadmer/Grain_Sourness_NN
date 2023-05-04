@@ -46,7 +46,7 @@ def main(mode=1, noise_filter=True, sec=-1):
 
     log.log(log_categories[1], 1, "Loading data")
     data = np.array(utils.get_fft_data(noise_filter, sec)).reshape(1, -1)
-    # data = np.array(test.main()).reshape(1, -1)
+    # data = np.array(test.main()).reshape(1, -1) # Filter test
     log.log(log_categories[1], 1, "Done")
     if None in data:
         log.log(log_categories[0], 1, "Noise")

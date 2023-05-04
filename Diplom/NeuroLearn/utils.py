@@ -126,6 +126,12 @@ def compile_signal():
         step += seconds / len(data)
         t.append(round(step, 4))
 
+    if os.path.exists("full_signal.txt"):
+        os.remove("full_signal.txt")
+    with open("full_signal.txt", "a+") as file:
+        for i, num in enumerate(data):
+            file.write(str(t[i]) + '        ' + str(num) + '\n')
+
     with open(f"{signals_dir}/{save_time}_signal.txt", "a+") as file:
         for i, num in enumerate(data):
             file.write(str(t[i]) + '        ' + str(num) + '\n')
