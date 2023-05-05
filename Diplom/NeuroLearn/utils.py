@@ -17,7 +17,11 @@ def launch_ADC():
         subprocess.Popen(["start", "cmd", '/k', "adc_reader\\adc_reader.exe"], shell=True)
 
 
-def show_signal():
+def show_signal(gain=1):
+    try:
+        gain = float(gain)
+    except Exception as ex:
+        return
     directory = "adc_reader/output"
     if not os.path.exists(directory):
         return
@@ -41,6 +45,8 @@ def show_signal():
             data.append(np.loadtxt(filename))
 
     data = np.concatenate(data)
+    for i, V in enumerate(data):
+        data[i] = V * gain
 
     seconds = len(data) / 5024
     step = 0
@@ -59,10 +65,12 @@ def show_signal():
     plt.show()
 
 
-def show_fourier():
+def show_fourier(gain=1):
     data = np.loadtxt("adc_reader/thread_1.txt")
 
     data = data[:5000]
+    for i, V in enumerate(data):
+        data[i] = V * gain
 
     data = np.fft.fft(data)
 
@@ -79,6 +87,9 @@ def show_fourier():
 
 
 def show_results():
+    if not os.path.exists("result.txt"):
+        return
+
     data = np.loadtxt("result.txt")
     seconds = [i for i in range(1, len(data) + 1)]
 
@@ -88,7 +99,7 @@ def show_results():
     plt.show()
 
 
-def compile_signal():
+def compile_signal(gain=1):
     directory = "adc_reader/output"
     if not os.path.exists(directory):
         return
@@ -116,6 +127,8 @@ def compile_signal():
             data.append(np.loadtxt(filename))
 
     data = np.concatenate(data)
+    for i, V in enumerate(data):
+        data[i] = V * gain
 
     seconds = len(data) / 5024
     step = 0
@@ -138,7 +151,7 @@ def compile_signal():
     print("Done")
 
 
-def get_fft_data(noise_filter=True, sec=-1):
+def get_fft_data(noise_filter=True, sec=-1, gain=1):
     sec = float(sec)
     if sec == -1:
         data = np.loadtxt("adc_reader/thread_1.txt")
@@ -162,6 +175,8 @@ def get_fft_data(noise_filter=True, sec=-1):
         data = np.array(data)
 
     data = data[:5000]
+    for i, V in enumerate(data):
+        data[i] = V * gain
     data = np.fft.fft(data)
     data = [abs(x) for x in data]
 

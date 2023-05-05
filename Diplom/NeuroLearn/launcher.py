@@ -26,6 +26,7 @@ class App(customtkinter.CTk):
         self.btnResults = None
         self.btnCompileSignal = None
         self.leDownBorder = None
+        self.leSignalGain = None
 
         # Checkbox
         self.checkFilter = None
@@ -44,9 +45,15 @@ class App(customtkinter.CTk):
         # Buttons block
         # -----------------
 
+        # Signal gain
+        self.leSignalGain = customtkinter.CTkEntry(self, placeholder_text="Signal gain", width=75)
+        self.leSignalGain.place(relx=0.65, rely=0.1, anchor=tkinter.CENTER)
+        self.leSignalGain.insert(-1, "1")
+
         # Local NN
-        self.leDownBorder = customtkinter.CTkEntry(self, placeholder_text="-1")
-        self.leDownBorder.place(relx=0.5, rely=0.1, anchor=tkinter.CENTER)
+        self.leDownBorder = customtkinter.CTkEntry(self, placeholder_text="Start point", width=75)
+        self.leDownBorder.place(relx=0.35, rely=0.1, anchor=tkinter.CENTER)
+        self.leDownBorder.insert(-1, "-1")
 
         self.btnReg = customtkinter.CTkButton(self, text="Start regressive", command=partial(self.start_nn, 1))
         self.btnReg.place(relx=0.35, rely=0.2, anchor=tkinter.CENTER)
@@ -63,20 +70,35 @@ class App(customtkinter.CTk):
         self.checkFilter.place(relx=0.3, rely=0.35, anchor=tkinter.CENTER)
 
         # Full signal
-        self.btnSignal = customtkinter.CTkButton(self, text="Show full signal", command=utils.show_signal)
+        self.btnSignal = customtkinter.CTkButton(self, text="Show full signal", command=partial(self.on_clicked, 0))
         self.btnSignal.place(relx=0.2, rely=0.7, anchor=tkinter.CENTER)
 
         # Compile signal
-        self.btnCompileSignal = customtkinter.CTkButton(self, text="Compile signal", command=utils.compile_signal)
+        self.btnCompileSignal = customtkinter.CTkButton(self, text="Compile signal",
+                                                        command=partial(self.on_clicked, 1))
         self.btnCompileSignal.place(relx=0.5, rely=0.7, anchor=tkinter.CENTER)
 
         # Fourier
-        self.btnFourier = customtkinter.CTkButton(self, text="Show last fourier", command=utils.show_fourier)
+        self.btnFourier = customtkinter.CTkButton(self, text="Show last fourier", command=partial(self.on_clicked, 2))
         self.btnFourier.place(relx=0.8, rely=0.7, anchor=tkinter.CENTER)
 
         # Results
-        self.btnResults = customtkinter.CTkButton(self, text="Show results", command=utils.show_results)
+        self.btnResults = customtkinter.CTkButton(self, text="Show results", command=partial(self.on_clicked, 3))
         self.btnResults.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
+
+    def on_clicked(self, index):
+        btnFinder = {
+            0: utils.show_signal,
+            1: utils.compile_signal,
+            2: utils.show_fourier,
+            3: utils.show_results
+        }
+
+        func = btnFinder.get(index)
+        if index == 3:
+            func()
+        else:
+            func(float(self.leSignalGain.get()))
 
     def start_nn(self, mode):
         # print(threading.active_count())
@@ -99,7 +121,7 @@ class App(customtkinter.CTk):
     def neural_network(self, mode):
         while self.can_calculating:
             thread = threading.Thread(target=NN.main,
-                                      args=(mode, self.checkFilter.get(), self.leDownBorder.get(),))
+                                      args=(mode, self.checkFilter.get(), float(self.leDownBorder.get()),))
             thread.start()
             thread.join()
             time.sleep(1)

@@ -17,7 +17,7 @@ def get_weights(mod):
     return model
 
 
-def main(mode=1, noise_filter=True, sec=-1):
+def main(mode=1, noise_filter=True, sec=-1, gain=1):
     if mode == 1:
         log = Log.Logging(True, "working_logs/reg")
     elif mode == 2:
@@ -45,7 +45,7 @@ def main(mode=1, noise_filter=True, sec=-1):
     log.log(log_categories[1], 1, "Done")
 
     log.log(log_categories[1], 1, "Loading data")
-    data = np.array(utils.get_fft_data(noise_filter, sec)).reshape(1, -1)
+    data = np.array(utils.get_fft_data(noise_filter, sec, gain)).reshape(1, -1)
     # data = np.array(test.main()).reshape(1, -1) # Filter test
     log.log(log_categories[1], 1, "Done")
     if None in data:
