@@ -22,6 +22,7 @@ class App(customtkinter.CTk):
         self.btnStopNeuralNet = None
         self.btnADC = None
         self.btnSignal = None
+        self.btnLastFullSignal = None
         self.btnFourier = None
         self.btnResults = None
         self.btnCompileSignal = None
@@ -40,6 +41,7 @@ class App(customtkinter.CTk):
         # Main window
         self.geometry("600x500")
         self.title("Grain sourness")
+        self.resizable(width=False, height=False)
 
         # -----------------
         # Buttons block
@@ -73,8 +75,13 @@ class App(customtkinter.CTk):
         self.btnSignal = customtkinter.CTkButton(self, text="Show full signal", command=partial(self.on_clicked, 0))
         self.btnSignal.place(relx=0.2, rely=0.7, anchor=tkinter.CENTER)
 
+        # Last Full signal
+        self.btnLastFullSignal = customtkinter.CTkButton(self, text="Show last full signal",
+                                                         command=partial(self.on_clicked, 4))
+        self.btnLastFullSignal.place(relx=0.2, rely=0.8, anchor=tkinter.CENTER)
+
         # Compile signal
-        self.btnCompileSignal = customtkinter.CTkButton(self, text="Compile signal",
+        self.btnCompileSignal = customtkinter.CTkButton(self, text="Save signal",
                                                         command=partial(self.on_clicked, 1))
         self.btnCompileSignal.place(relx=0.5, rely=0.7, anchor=tkinter.CENTER)
 
@@ -91,7 +98,8 @@ class App(customtkinter.CTk):
             0: utils.show_signal,
             1: utils.compile_signal,
             2: utils.show_fourier,
-            3: utils.show_results
+            3: utils.show_results,
+            4: utils.show_last_signal
         }
 
         func = btnFinder.get(index)

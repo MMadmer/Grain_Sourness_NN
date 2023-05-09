@@ -6,6 +6,16 @@ import os
 from datetime import datetime
 
 
+def internal_filter(data):
+    filt = 3
+
+    for i, el in enumerate(data):
+        if el >= filt or el <= -filt:
+            data[i] = 0
+
+    return data
+
+
 def launch_ADC():
     proc_name = "adc_reader.exe"
 
@@ -45,8 +55,11 @@ def show_signal(gain=1):
             data.append(np.loadtxt(filename))
 
     data = np.concatenate(data)
+    # Signal gain
     for i, V in enumerate(data):
         data[i] = V * gain
+    # Signal filter
+    data = internal_filter(data)
 
     seconds = len(data) / 5024
     step = 0
@@ -65,12 +78,55 @@ def show_signal(gain=1):
     plt.show()
 
 
+def show_last_signal(gain=1):
+    try:
+        gain = float(gain)
+    except Exception as ex:
+        return
+
+    file_path = "full_signal.txt"
+    t = []
+    V = []
+
+    if not os.path.exists(file_path):
+        print(f"The file {file_path} does not exist.")
+        return
+    with open(file_path, 'r') as f:
+        # Parse the data as a time sequence
+        for line in f:
+            values = line.split()
+            if len(values) == 2:
+                try:
+                    t_val = float(values[0])
+                    v_val = float(values[1])
+                    t.append(t_val)
+                    V.append(v_val * gain)  # Signal write and gain
+                except ValueError:
+                    # If the string cannot be converted to a float, skip it
+                    continue
+
+    # Signal filter
+    V = internal_filter(V)
+
+    fig, ax = plt.subplots(figsize=(19.2, 12), dpi=100)
+    ax.plot(t, V)
+    ax.set_ylabel("V")
+    ax.set_xlabel("t")
+    fig.subplots_adjust(left=0.02, bottom=0.02, right=1.0, top=1.0)
+    plt.show()
+
+    t.clear()
+    V.clear()
+
+
 def show_fourier(gain=1):
     data = np.loadtxt("adc_reader/thread_1.txt")
 
     data = data[:5000]
     for i, V in enumerate(data):
         data[i] = V * gain
+    # Signal filter
+    data = internal_filter(data)
 
     data = np.fft.fft(data)
 
@@ -129,6 +185,8 @@ def compile_signal(gain=1):
     data = np.concatenate(data)
     for i, V in enumerate(data):
         data[i] = V * gain
+    # Signal filter
+    data = internal_filter(data)
 
     seconds = len(data) / 5024
     step = 0
@@ -177,6 +235,10 @@ def get_fft_data(noise_filter=True, sec=-1, gain=1):
     data = data[:5000]
     for i, V in enumerate(data):
         data[i] = V * gain
+
+    # Signal filter
+    data = internal_filter(data)
+
     data = np.fft.fft(data)
     data = [abs(x) for x in data]
 

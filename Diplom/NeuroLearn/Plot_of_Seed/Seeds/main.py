@@ -3,9 +3,9 @@ import os
 
 
 def main():
-    file = f"proc_2"
-    start_file = 21
-    files = 45
+    file = f"proc_0"
+    start_file = 1
+    files = 30
     t = []
     V = []
     progress = 0
@@ -25,8 +25,8 @@ def main():
             else:
                 with open(file_path, 'r') as f:
                     # Skip the first 11 lines
-                    for j in range(11):
-                        next(f)
+                    # for j in range(11):
+                    #     next(f)
                     # Parse the data as a time sequence
                     for line in f:
                         values = line.split()

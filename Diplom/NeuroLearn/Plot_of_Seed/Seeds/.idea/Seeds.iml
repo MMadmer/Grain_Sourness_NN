@@ -20,6 +20,8 @@
       <excludeFolder url="file://$MODULE_DIR$/Selection_proc_4" />
       <excludeFolder url="file://$MODULE_DIR$/Selection_proc_6" />
       <excludeFolder url="file://$MODULE_DIR$/Selection_proc_8" />
+      <excludeFolder url="file://$MODULE_DIR$/brak" />
+      <excludeFolder url="file://$MODULE_DIR$/backup" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

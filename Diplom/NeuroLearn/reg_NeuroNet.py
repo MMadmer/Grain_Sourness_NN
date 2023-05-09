@@ -67,10 +67,9 @@ log_categories = [
     "logResult",
     "logStatus"
 ]
-log = Log.Logging(True, "reg_log")
-if log.ENABLE_LOGGING:
-    if not os.path.exists(f"reg_results/{log.log_time}"):
-        os.makedirs(f"reg_results/{log.log_time}")
+log = Log.Logging(True, "logs/reg/logs")
+if not os.path.exists(f"logs/reg/results/{log.log_time}"):
+    os.makedirs(f"logs/reg/results/{log.log_time}")
 
 
 def main():
@@ -128,7 +127,7 @@ def main():
     log.log(log_categories[1], 1, "Done")
 
     log.log(log_categories[1], 1, "Weights saving")
-    dump(reg, f"reg_results/{log.log_time}/reg_model.joblib")
+    dump(reg, f"logs/reg/results/{log.log_time}/reg_model.joblib")
     log.log(log_categories[1], 1, "Done")
 
     # Evaluate the model on the testing set
@@ -142,7 +141,7 @@ def main():
     plt.title('Loss curve')
     plt.xlabel('Iteration')
     plt.ylabel('Loss')
-    plt.savefig(f"reg_results/{log.log_time}/loss_plot.png")
+    plt.savefig(f"logs/reg/results/{log.log_time}/loss_plot.png")
     plt.show()
 
 

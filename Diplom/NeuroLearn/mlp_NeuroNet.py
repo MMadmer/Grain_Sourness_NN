@@ -123,8 +123,8 @@ def main():
     # weights = mlp.coefs_
     # for i, layer in enumerate(weights):
     #     # repeat the second array to match the number of rows in the first array
-    #     np.savetxt(f"results/{log.log_time}/layer_{i}.txt", layer)
-    dump(mlp, f"results/{log.log_time}/mlp_model.joblib")
+    #     np.savetxt(f"results/mlp/{log.log_time}/layer_{i}.txt", layer)
+    dump(mlp, f"logs/mlp/results/{log.log_time}/mlp_model.joblib")
     log.log(log_categories[1], 1, "Done")
 
     # make predictions on the testing data
@@ -141,7 +141,7 @@ def main():
     plt.title('Loss curve')
     plt.xlabel('Iteration')
     plt.ylabel('Loss')
-    plt.savefig(f"results/{log.log_time}/loss_plot.png")
+    plt.savefig(f"logs/mlp/results/{log.log_time}/loss_plot.png")
     plt.show()
 
 
@@ -149,10 +149,9 @@ log_categories = [
     "logResult",
     "logStatus"
 ]
-log = Log.Logging(True)
-if log.ENABLE_LOGGING:
-    if not os.path.exists(f"results/{log.log_time}"):
-        os.makedirs(f"results/{log.log_time}")
+log = Log.Logging(True, "logs/mlp/logs")
+if not os.path.exists(f"logs/mlp/results/{log.log_time}"):
+    os.makedirs(f"logs/mlp/results/{log.log_time}")
 
 
 if __name__ == "__main__":

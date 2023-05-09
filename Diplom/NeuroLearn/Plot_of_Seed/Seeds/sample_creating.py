@@ -195,8 +195,8 @@ def main():
             V = []
             with open(file_path, "r") as data_file:
                 # Skip the first 11 lines
-                for j in range(11):
-                    next(data_file)
+                # for j in range(11):
+                #     next(data_file)
                 # Parse the data as a time sequence
                 for line in data_file:
                     values = line.split()
