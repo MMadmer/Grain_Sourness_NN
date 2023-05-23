@@ -1,7 +1,6 @@
 import numpy as np
 import os
 import joblib
-import time
 import Logging as Log
 import utils
 import test
@@ -45,9 +44,10 @@ def main(mode=1, noise_filter=True, sec=-1, gain=1):
     log.log(log_categories[1], 1, "Done")
 
     log.log(log_categories[1], 1, "Loading data")
-    data = np.array(utils.get_fft_data(noise_filter, sec, gain)).reshape(1, -1)
+    data = np.array(utils.get_data(noise_filter, sec, gain)).reshape(1, -1)
     # data = np.array(test.main()).reshape(1, -1) # Filter test
     log.log(log_categories[1], 1, "Done")
+
     if None in data:
         log.log(log_categories[0], 1, "Noise")
         with open("result.txt", "a+") as file:
@@ -68,12 +68,14 @@ def main(mode=1, noise_filter=True, sec=-1, gain=1):
                 file.seek(0, 2)
                 file.write(str(round(float(y_pred), 2)) + '\n')
         if mode == 2:
+            y_pred = int(y_pred / 2)
+            # classes = [0, 4, 6, 10]
             classes = [0, 2, 4, 6, 8, 10]
-            log.log(log_categories[1], 1, str(classes[int(y_pred) - 1]) + '%')
+            log.log(log_categories[1], 1, str(classes[int(y_pred)]) + '%')
 
             with open(f"result.txt", "a+") as file:
                 file.seek(0, 2)
-                file.write(str(classes[int(y_pred) - 1]) + '\n')
+                file.write(str(classes[int(y_pred)]) + '\n')
 
 
 if __name__ == "__main__":

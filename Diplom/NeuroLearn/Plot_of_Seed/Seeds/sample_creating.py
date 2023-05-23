@@ -107,7 +107,7 @@ start_file = 1
 num_files = 45
 total_files = 0
 selection_duration = 5000
-step = 100
+step = 500
 
 
 def main():
@@ -224,24 +224,24 @@ def main():
                 for k in range(current_min, current_max):
                     selection_V.append(V[k])
 
-                # # Creating selection files
-                # selection_file_path = os.path.join(selection_folder_name, f"{total_files_in_folder}.txt")
-                # with open(selection_file_path, "w") as selection_file:
-                #     for num in selection_V:
-                #         selection_file.write(str(num) + "\n")
-
-                # Fourier
-                coeffs = dft(selection_V)
-                freq = 5000
-                N = 1000
-                freq_step = [k * freq / N for k in range(N)]
-                mags = [abs(coeffs[x]) for x in range(N)]
-
                 # Creating selection files
                 selection_file_path = os.path.join(selection_folder_name, f"{total_files_in_folder}.txt")
                 with open(selection_file_path, "w") as selection_file:
-                    for num in mags:
+                    for num in selection_V:
                         selection_file.write(str(num) + "\n")
+
+                # # Fourier
+                # coeffs = dft(selection_V)
+                # freq = 5000
+                # N = 1000
+                # freq_step = [k * freq / N for k in range(N)]
+                # mags = [abs(coeffs[x]) for x in range(N)]
+                #
+                # # Creating selection files
+                # selection_file_path = os.path.join(selection_folder_name, f"{total_files_in_folder}.txt")
+                # with open(selection_file_path, "w") as selection_file:
+                #     for num in mags:
+                #         selection_file.write(str(num) + "\n")
 
                 # # Create a plot with only the line visible
                 # fig, ax = plt.subplots(figsize=(12.8, 7.2), dpi=100)
@@ -281,22 +281,22 @@ def main():
 
     root.destroy()
 
-    print("Sample shuffle")
-
-    for folder in folders:
-        selection_folder_name = f"{selection_folder_prefix}_{folder}"
-        # print(selection_folder_name)
-        # shuffle_files.shuffle(selection_folder_name)
-        threads.append(threading.Thread(target=shuffle_files.shuffle, args=(selection_folder_name,)))
-    # Start the threads
-    for thread in threads:
-        thread.start()
-    # Wait for all threads to complete
-    for thread in threads:
-        thread.join()
-    threads.clear()
-
-    print("Done")
+    # print("Sample shuffle")
+    #
+    # for folder in folders:
+    #     selection_folder_name = f"{selection_folder_prefix}_{folder}"
+    #     # print(selection_folder_name)
+    #     # shuffle_files.shuffle(selection_folder_name)
+    #     threads.append(threading.Thread(target=shuffle_files.shuffle, args=(selection_folder_name,)))
+    # # Start the threads
+    # for thread in threads:
+    #     thread.start()
+    # # Wait for all threads to complete
+    # for thread in threads:
+    #     thread.join()
+    # threads.clear()
+    #
+    # print("Done")
 
 
 if __name__ == "__main__":

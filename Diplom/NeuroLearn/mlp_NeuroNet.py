@@ -31,7 +31,9 @@ def samples_loading():
         print(directory)
 
         category = int(directory[len("Selection_proc_"):])
-        category = int(category / 2) + 1
+        # if category == 2 or category == 8:
+        #     continue
+        # category = int(category / 2) + 1
         # category = category_converter(category)
 
         if files_in_directory + 1 >= retrieved_files:
@@ -80,7 +82,7 @@ def main():
 
     # create an MLP
     log.log(log_categories[1], 1, "Creating neural network")
-    mlp = MLPClassifier(hidden_layer_sizes=(250, 125, 62), max_iter=30, verbose=10, batch_size=16)
+    mlp = MLPClassifier(hidden_layer_sizes=(250, 125, 62), max_iter=30, verbose=10, batch_size=16, activation="relu")
     log.log(log_categories[1], 1, "Done")
 
     # train the MLP on the training data
@@ -132,6 +134,7 @@ def main():
 
     # compute the accuracy of the predictions
     accuracy = accuracy_score(y_test, y_pred)
+    # target_names = ["0%", "4%", "6%", "10%"]
     target_names = ["0%", "2%", "4%", "6%", "8%", "10%"]
     log.log(log_categories[0], 1, '\n' + classification_report(y_test, y_pred, target_names=target_names))
 

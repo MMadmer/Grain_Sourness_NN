@@ -1,0 +1,46 @@
+
+Default
+23:05:23 19:22:27 : logStatus: Loading training sample...
+Default
+23:05:23 19:22:28 : logStatus: 1277 of 1277 files from Selection_proc_0 loaded.
+Default
+23:05:23 19:22:29 : logStatus: 1492 of 1492 files from Selection_proc_10 loaded.
+Default
+23:05:23 19:22:30 : logStatus: 665 of 665 files from Selection_proc_2 loaded.
+Default
+23:05:23 19:22:32 : logStatus: 1715 of 1715 files from Selection_proc_4 loaded.
+Default
+23:05:23 19:22:33 : logStatus: 1786 of 1786 files from Selection_proc_6 loaded.
+Default
+23:05:23 19:22:34 : logStatus: 726 of 726 files from Selection_proc_8 loaded.
+Default
+23:05:23 19:22:34 : logStatus: Done. Total files: 7661
+Default
+23:05:23 19:22:34 : logStatus: Creating neural network
+Default
+23:05:23 19:22:34 : logStatus: Done
+Default
+23:05:23 19:22:34 : logStatus: Training neural network
+Default
+23:05:23 19:25:19 : logStatus: Done
+Default
+23:05:23 19:25:19 : logStatus: Weights saving
+Default
+23:05:23 19:25:19 : logStatus: Done
+Default
+23:05:23 19:25:19 : logResult: 
+              precision    recall  f1-score   support
+
+          0%       0.71      1.00      0.83       261
+          2%       0.99      0.94      0.97       139
+          4%       0.95      0.64      0.77       352
+          6%       0.97      0.82      0.89       357
+          8%       0.95      0.99      0.97       150
+         10%       0.79      0.96      0.87       274
+
+    accuracy                           0.86      1533
+   macro avg       0.89      0.89      0.88      1533
+weighted avg       0.89      0.86      0.86      1533
+
+Default
+23:05:23 19:25:19 : logResult: Accuracy: 86.30%

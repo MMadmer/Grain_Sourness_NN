@@ -1,0 +1,13 @@
+
+Default
+23:05:23 19:36:26 : logStatus: Model loading
+Default
+23:05:23 19:36:26 : logStatus: Done
+Default
+23:05:23 19:36:26 : logStatus: Loading data
+Default
+23:05:23 19:36:26 : logStatus: Done
+Default
+23:05:23 19:36:26 : logStatus: Files counting
+Default
+23:05:23 19:36:26 : logStatus: Done. Total files 60

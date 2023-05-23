@@ -209,7 +209,7 @@ def compile_signal(gain=1):
     print("Done")
 
 
-def get_fft_data(noise_filter=True, sec=-1, gain=1):
+def get_data(noise_filter=True, sec=-1, gain=1, is_fourier=True):
     sec = float(sec)
     if sec == -1:
         data = np.loadtxt("adc_reader/thread_1.txt")
@@ -239,17 +239,21 @@ def get_fft_data(noise_filter=True, sec=-1, gain=1):
     # Signal filter
     data = internal_filter(data)
 
-    data = np.fft.fft(data)
-    data = [abs(x) for x in data]
+    fourier = np.fft.fft(data)
+    fourier = [abs(x) for x in fourier]
 
-    data = data[:1000]
-
+    fourier = fourier[:1000]
     if noise_filter:
         # Noise cutting
         s_fourier = 0
-        for element in data:
+        for element in fourier:
             s_fourier += element
         if s_fourier < 5000:
             return None
+
+    if is_fourier:
+        data = fourier
+    print(data)
+    print(len(data))
 
     return data

@@ -1,0 +1,13 @@
+
+Default
+23:05:23 18:31:08 : logStatus: Model loading
+Default
+23:05:23 18:31:08 : logStatus: Done
+Default
+23:05:23 18:31:08 : logStatus: Loading data
+Default
+23:05:23 18:31:08 : logStatus: Done
+Default
+23:05:23 18:31:08 : logStatus: Done
+Default
+23:05:23 18:31:08 : logStatus: 4%

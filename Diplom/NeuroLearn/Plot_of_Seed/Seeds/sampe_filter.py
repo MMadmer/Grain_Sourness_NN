@@ -6,7 +6,7 @@ def main():
     filt = 3
     file = f"proc_0"
     start_file = 1
-    files = 30
+    files = 50
     t = []
     V = []
     progress = 0
