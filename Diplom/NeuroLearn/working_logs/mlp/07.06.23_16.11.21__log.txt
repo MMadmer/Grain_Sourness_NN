@@ -1,0 +1,11 @@
+
+Default
+07:06:23 16:11:21 : logStatus: Model loading
+Default
+07:06:23 16:11:21 : logStatus: Done
+Default
+07:06:23 16:11:21 : logStatus: Loading data
+Default
+07:06:23 16:11:21 : logStatus: Done
+Default
+07:06:23 16:11:21 : LogResult: Noise

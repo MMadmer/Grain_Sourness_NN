@@ -1,30 +1,29 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import subprocess
-import psutil
+# import psutil
 import os
 from datetime import datetime
+from time import perf_counter
 
 
 def internal_filter(data):
     filt = 3
 
-    for i, el in enumerate(data):
-        if el >= filt or el <= -filt:
-            data[i] = 0
+    data[(data >= filt) | (data <= -filt)] = 0
 
     return data
 
 
-def launch_ADC():
-    proc_name = "adc_reader.exe"
-
-    for proc in psutil.process_iter(['name']):
-        if proc.info["name"] == proc_name:
-            print("Программа уже запущена")
-            break
-    else:
-        subprocess.Popen(["start", "cmd", '/k', "adc_reader\\adc_reader.exe"], shell=True)
+# def launch_ADC():
+#     proc_name = "adc_reader.exe"
+#
+#     for proc in psutil.process_iter(['name']):
+#         if proc.info["name"] == proc_name:
+#             print("Программа уже запущена")
+#             break
+#     else:
+#         subprocess.Popen(["start", "cmd", '/k', "adc_reader\\adc_reader.exe"], shell=True)
 
 
 def show_signal(gain=1):
@@ -212,48 +211,30 @@ def compile_signal(gain=1):
 def get_data(noise_filter=True, sec=-1, gain=1, is_fourier=True):
     sec = float(sec)
     if sec == -1:
-        data = np.loadtxt("adc_reader/thread_1.txt")
+        data = np.fromfile("adc_reader/thread_1.txt", dtype=np.float64)
+        # data = np.loadtxt("adc_reader/thread_1.txt")
     else:
-        data = []
         with open("full_signal.txt", "r") as data_file:
             # Parse the data as a time sequence
-            for line in data_file:
-                values = line.split()
-                if len(values) == 2:
-                    try:
-                        t_val = float(values[0])
-                        v_val = float(values[1])
-                        if sec <= t_val:
-                            data.append(v_val)
-                        else:
-                            continue
-                    except ValueError:
-                        # If the string cannot be converted to a float, skip it
-                        continue
-        data = np.array(data)
+            data = np.array([float(values[1]) for line in data_file for values in [line.split()] if
+                             len(values) == 2 and float(values[0]) >= sec])
 
     data = data[:5000]
-    for i, V in enumerate(data):
-        data[i] = V * gain
+    data *= gain
 
     # Signal filter
     data = internal_filter(data)
 
-    fourier = np.fft.fft(data)
-    fourier = [abs(x) for x in fourier]
+    fourier = np.abs(np.fft.fft(data))
 
     fourier = fourier[:1000]
     if noise_filter:
         # Noise cutting
-        s_fourier = 0
-        for element in fourier:
-            s_fourier += element
+        s_fourier = np.sum(fourier)
         if s_fourier < 5000:
             return None
 
     if is_fourier:
         data = fourier
-    print(data)
-    print(len(data))
 
     return data

@@ -22,7 +22,7 @@ def samples_loading():
     np.set_printoptions(threshold=np.inf)
 
     total_files = 0
-    for directory in os.listdir(base_dir):
+    for dir_num, directory in enumerate(os.listdir(base_dir)):
         loaded_files_from_directory = 0
         full_path = os.path.join(base_dir, directory)
         if not os.path.isdir(full_path) or not directory.startswith("Selection_proc_"):
@@ -48,10 +48,10 @@ def samples_loading():
                     loading_index = (loading_index + 1) % len(LOADING)
 
                 with open(os.path.join(full_path, f"{i}.txt")) as f:
-                    data = [float(line.strip()) for line in f]
+                    data = np.array([float(line.strip()) for line in f])
 
                 # Add the data to the dataset, with the category label
-                dataset.append((np.array([data]), category))
+                dataset.append(([data], category))
 
                 # print(f"{full_path}/{i}.txt")
         total_files += loaded_files_from_directory
@@ -78,7 +78,7 @@ def main():
     dataset.clear()
 
     # split the data into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.0)
 
     # create an MLP
     log.log(log_categories[1], 1, "Creating neural network")
